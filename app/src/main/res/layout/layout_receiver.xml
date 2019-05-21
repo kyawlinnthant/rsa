@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+    <com.google.android.material.textfield.TextInputLayout
+
+            app:passwordToggleEnabled="true"
+
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="48dp"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="48dp" android:id="@+id/tiKey" app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="48dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+                android:maxLines="1"
+                android:inputType="textWebPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="RSA Key" android:id="@+id/etKey"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+            app:counterMaxLength="1000"
+            app:counterEnabled="true"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="48dp"
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="48dp" android:layout_marginTop="48dp"
+            app:layout_constraintTop_toBottomOf="@+id/tiKey" android:id="@+id/tiMsg">
+
+        <com.google.android.material.textfield.TextInputEditText
+                android:maxLength="1000"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Message" android:id="@+id/etMsg"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.button.MaterialButton
+            app:cornerRadius="16dp"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:text="Decript"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/tiMsg"/>
+    <androidx.appcompat.widget.AppCompatTextView
+            tools:visibility="visible"
+            android:visibility="gone"
+            android:fontFamily="monospace"
+            android:textColor="@color/colorAccent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/result" app:layout_constraintEnd_toEndOf="@+id/tiMsg"
+            app:layout_constraintStart_toStartOf="@+id/tiMsg" android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/button"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
