@@ -12,8 +12,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.layout_sender.*
-import java.io.UnsupportedEncodingException
-
 
 class Sender : BaseFragment() {
 
@@ -63,8 +61,7 @@ class Sender : BaseFragment() {
                 hasMsg = s!!.trim().isNotEmpty()
                 checkBtn()
                 showPhone(s.trim().isNotEmpty())
-
-                encrypt(s.toString())
+                show(s.toString())
 
             }
         })
@@ -121,30 +118,40 @@ class Sender : BaseFragment() {
     }
 
     private fun sendMsg() {
+
+        encrypt(etMsg.text!!.trim().toString())
+
         Intent(Intent.ACTION_VIEW).apply {
             this.type = "vnd.android-dir/mms-sms"
             this.putExtra("address", etPhone.text!!.trim().toString())
             this.putExtra(
                 "sms_body",
-                "key>>" + etKey.text!!.trim().toString() + '\n' + "message>>" + etMsg.text!!.trim().toString()
+                "key>>" + etKey.text.toString() +"\n" + "message>>"+encrypt(etMsg.text.toString())
             )
             startActivity(this)
         }
 
+
+
     }
-
-
 
     private fun getKey(input: String): String = Base64.encodeToString(input.toByteArray(), Base64.DEFAULT)
 
-    private fun encrypt(msg: String) {
+    private fun encrypt(msg: String) : String {
 
         val rsa = RSAPadding(context!!)
         val ans = rsa.encrypt(msg)+getKey(etKey.text.toString())+etKey.text!!.length.toString()
+        return ans
+    }
+
+    private fun show(msg: String){
+        val rsa = RSAPadding(context!!)
+        val ans = rsa.encrypt(msg)+getKey(etKey.text.toString())+etKey.text!!.length.toString()
         tvText.text = ans
-
-        Log.e("a",ans)
-
+        Log.e("rsa",rsa.encrypt(msg))
+        Log.e("getkey",getKey(etKey.text.toString())+etKey.text!!.length.toString())
+        Log.e("input","${ans.length}")
+        Log.e("ans",ans)
     }
 
 

@@ -44,21 +44,34 @@ class Receiver : BaseFragment() {
 
     private fun process() {
 
-        val receiverKey = Base64.encodeToString(etKey.text.toString().toByteArray(),Base64.DEFAULT)
-        Log.e("receiverKey",receiverKey)
-        val receiverSize = etMsg.text.toString().last()
-        val sizeString = receiverSize.toString()
-        val sizeInt = sizeString.toInt()
-        val subSize = (sizeInt/3+1)*4
-        val deMes = etMsg.text!!.substring(0, etMsg.length() - subSize-1)
-        val msgKey = etMsg.text!!.removeRange(0, etMsg.length() - subSize-1).toString()
-        val key = msgKey.substring(0,msgKey.length-1)
 
-        Log.e("msgKey",key)
+        val inputKey = etKey.text.toString()
+        val input64 = Base64.encodeToString(inputKey.toByteArray(), Base64.DEFAULT)
+        val inputMsg = etMsg.text.toString()
 
-        if (receiverKey.trim() == key.trim()){
-            decrypt(deMes)
+        val msgLastIndex : Int = inputMsg.length-1
+        val keyCountChar : Char = inputMsg[inputMsg.lastIndex]
+        val keyCountString : String = keyCountChar.toString()
+        val keyCountInt : Int = keyCountString.toInt()
+        val a = keyCountInt-1
+        val b : Int = a/3
+        val c = b+1
+        val d = c * 4
+        val cutSize : Int = d
+        val subSize = cutSize + 1
+        val totalSubSize = msgLastIndex-subSize
+        val keyStart = totalSubSize+1
+        val keyEncrypt = inputMsg.substring(keyStart,msgLastIndex)
+        val msgEncrypt = inputMsg.substring(0,keyStart)
+
+        if (input64.trim()==keyEncrypt){
+            decrypt(msgEncrypt)
         }else Snackbar.make(view!!,"Wrong Key",Snackbar.LENGTH_LONG).show()
+
+        Log.e("deb","inputMsg${inputMsg.length}:$inputMsg:" +
+                " keyCountChar$keyCountChar  : keyCountString$keyCountString  : keyCountInt$keyCountInt  " +
+                "cutSize$cutSize   : a$a b$b c$c d$d subSize$subSize + keyEncrypt$keyEncrypt" +
+                "msgEncrypt$msgEncrypt")
 
     }
 
